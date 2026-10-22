@@ -21,10 +21,11 @@ DB_FILE = "amery_farm.db"
 @app.route('/download-db')
 def download_db():
     try:
-        return send_file(DB_FILE, as_attachment=True)
+        db_path = os.path.join(os.path.dirname(__file__), DB_FILE)
+        return send_file(db_path, as_attachment=True)
     except Exception as e:
-        return str(e), 404 
-
+        return str(e), 404
+        
 # ==================== SETUP DATABASE ====================
 
 def init_db():
