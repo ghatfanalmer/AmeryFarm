@@ -1,4 +1,4 @@
-from flask import send_file
+from flask import Flask, send_file
 
 app = Flask(__name__)
 
