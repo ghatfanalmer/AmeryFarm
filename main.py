@@ -20,16 +20,11 @@ DB_FILE = "amery_farm.db"
 
 @app.route('/download-db')
 def download_db():
-    try:
-        db_path = os.path.join(os.path.dirname(__file__), DB_FILE)
-        
-        # Buat database & tabel otomatis jika file belum ada
-        if not os.path.exists(db_path):
-            init_db()
-            
-        return send_file(db_path, as_attachment=True)
-    except Exception as e:
-        return str(e), 500
+    db_path = os.path.abspath(DB_FILE)
+    if not os.path.exists(db_path):
+        with open(db_path, 'w') as f:
+            pass
+    return send_file(db_path, as_attachment=True)
 
 # ==================== SETUP DATABASE ====================
 
