@@ -1,19 +1,25 @@
-import os
-import logging
-import sqlite3
-import json
-from flask import Flask
-from threading import Thread
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (
-    ApplicationBuilder,
-    CommandHandler,
-    CallbackQueryHandler,
-    ContextTypes,
-)
+from flask import send_file
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Amery Farm Bot Aktif!", 200
+
+@app.route('/health')
+def health():
+    return "OK", 200
+
+DB_FILE = "amery_farm.db"
+
+@app.route('/download-db')
+def download_db():
+    try:
+        return send_file(DB_FILE, as_attachment=True)
+    except Exception as e:
+        return str(e), 404 
 
 # ==================== SETUP DATABASE ====================
-DB_FILE = "amery_farm.db"
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
