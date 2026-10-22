@@ -2,7 +2,7 @@ import os
 import logging
 import sqlite3
 import json
-from telegram.ext import ApplicationBuilder
+from telegram.ext import ApplicationBuilder, CommandHandler
 from flask import Flask, send_file
 from threading import Thread
 
