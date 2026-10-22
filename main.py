@@ -2,9 +2,21 @@ import os
 import logging
 import sqlite3
 import json
-from telegram.ext import ApplicationBuilder, CommandHandler
 from flask import Flask, send_file
 from threading import Thread
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
+
+# ==================== SETUP LOGGING ====================
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
+TOKEN = os.environ.get("BOT_TOKEN")
+if not TOKEN:
+    raise ValueError("BOT_TOKEN environment variable is required!")
 
 app = Flask(__name__)
 
@@ -114,29 +126,8 @@ def row_to_dict(row):
         }
     }
 
-# ==================== SETUP FLASK & LOGGING ====================
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO
-)
-logger = logging.getLogger(__name__)
-
-TOKEN = os.environ.get("BOT_TOKEN")
-if not TOKEN:
-    raise ValueError("BOT_TOKEN environment variable is required!")
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Amery Farm Bot Aktif!", 200
-
-@app.route('/health')
-def health():
-    return "OK", 200
-
 def run_web():
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=False)
 
 # ==================== KEYBOARD MENU UTAMA ====================
